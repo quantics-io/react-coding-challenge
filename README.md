@@ -47,6 +47,15 @@ function Foo() {
 There is no copy logic at all. This example should only show that you can fetch data from the server, handle the controlls, do some filtering and style components.
 
 ## Run
+Before you run the first time make sure to install the node packages:
+```
+# using yarn
+$ yarn
+
+# using npm
+$ npm install
+```
+
 To run the dev environment just run the following command:
 ```
 # using yarn
