@@ -1,8 +1,8 @@
 [
   {
     "id": "fc5",
-    "name": "FC January 2023",
-    "user":{
+    "nae": "FC January 2023",
+    "user": {
       "firstname": "John",
       "lastname": "Doe",
       "email": "john.doe@example.com"
@@ -15,8 +15,8 @@
   },
   {
     "id": "fc4",
-    "name": "FC January 2022 (rerun)",
-    "user":{
+    "name": "5",
+    "user": {
       "firstname": "John",
       "lastname": "Doe",
       "email": "john.doe@example.com"
@@ -30,7 +30,7 @@
   {
     "id": "fc3",
     "name": "FC April 2022",
-    "user":{
+    "user": {
       "firstname": "John",
       "lastname": "Doe",
       "email": "john.doe@example.com"
@@ -44,7 +44,7 @@
   {
     "id": "fc2",
     "name": "FC January 2022",
-    "user":{
+    "user": {
       "firstname": "John",
       "lastname": "Doe",
       "email": "john.doe@example.com"
@@ -58,7 +58,7 @@
   {
     "id": "fc1",
     "name": "FC January 2021",
-    "user":{
+    "user": {
       "firstname": "John",
       "lastname": "Doe",
       "email": "john.doe@example.com"

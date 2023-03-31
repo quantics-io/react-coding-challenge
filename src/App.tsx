@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import s from './App.module.scss';
+import { stringify } from 'querystring';
+import { useEffect, useState } from 'react';
+import './default.scss';
+import Layout from './Components/Layout';
+import ProvideForecasts from './Components/ProvideForecasts';
+
+
 
 function App() {
 
-  const [forecasts, setForecasts] = useState([]);
-  useEffect(() => {
-    fetch("forecastruns.json")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setForecasts(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-
-
-  return (<div>Implement me</div>);
+  return (
+    <ProvideForecasts>
+      <Layout>
+        <div>Forecasts are loaded</div>
+      </Layout>
+    </ProvideForecasts>
+  );
 }
 
 export default App;
