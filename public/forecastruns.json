@@ -1,7 +1,7 @@
 [
   {
     "id": "fc5",
-    "nae": "FC January 2023",
+    "name": "FC January 2023",
     "user": {
       "firstname": "John",
       "lastname": "Doe",
@@ -15,7 +15,7 @@
   },
   {
     "id": "fc4",
-    "name": "5",
+    "name": "FC January 2022 (rerun)",
     "user": {
       "firstname": "John",
       "lastname": "Doe",
