@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import './styles.scss';
+import s from './Layout.module.scss';
 
 interface LayoutProps {
     children: ReactElement
@@ -7,8 +7,8 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
     return (
-        <div className='positionBox'>
-            <div className='box'>
+        <div className={s.positionBox}>
+            <div className={s.box}>
                 <h1>Forecast Copy Tool</h1>
                 <p>
                     This tool copies the data from the

@@ -1,7 +1,7 @@
-import React, {FC, memo, useCallback} from 'react';
+import React, { FC, memo, useCallback } from 'react';
 import './App.css';
-import {ForecastRunDto} from "./models";
-import {MenuItem, Select} from "@mui/material";
+import { ForecastRunDto } from "./models";
+import { MenuItem, Select } from "@mui/material";
 import s from './Dropdown.module.scss'
 
 type DropdownProps = {
@@ -10,7 +10,7 @@ type DropdownProps = {
   onChange: (fc: ForecastRunDto) => void;
 };
 
-export const Dropdown: FC<DropdownProps> = memo(function Dropdown({values, selected, onChange}) {
+export const Dropdown: FC<DropdownProps> = memo(function Dropdown({ values, selected, onChange }) {
 
   const handleChange = useCallback((id: string) => {
     console.info('Dropdown change:', id)
