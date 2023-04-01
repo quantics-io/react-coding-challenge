@@ -21,7 +21,7 @@ export const Dropdown: FC<DropdownProps> = memo(function Dropdown({ values, sele
 
   return (
     <FormControl sx={{ m: 1, width: 200, bgcolor: 'white' }} variant="standard">
-      <Select className={s.select} value={selected?.id} onChange={(it) => handleChange(it.target.value)}>
+      <Select className={s.select} value={selected ? selected.id : ' '} onChange={(it) => handleChange(it.target.value)}>
         {values.map(it => <MenuItem key={it.id} value={it.id}>{it.name}</MenuItem>)}
       </Select>
     </FormControl>

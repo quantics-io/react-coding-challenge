@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import Layout from './Layout';
 import SelectUnit from './SelectBox';
 import { ForecastRunDto } from './models';
-import { filterForCorrectType } from './utils';
+import { filterForCorrectType, fitSourceFc } from './utils';
 import SelectBox from './SelectBox';
 import { Dropdown } from './Dropdown';
-
-
+import WithSource from './WithSource';
 
 function App() {
   const [forecasts, setForecasts] = useState<ForecastRunDto[] | null>(null);
@@ -29,17 +28,24 @@ function App() {
     fetchForecasts();
   }, []);
 
+  useEffect(() => setTargetForecast(undefined), [sourceForecast]);
+
   if (forecasts) {
     if (forecasts.length === 0)
       return <div>We couldn't find any forecasts.</div>
     return (
       <Layout>
         <>
-          <div>Forecasts are loaded</div>
           <SelectBox title={'Source'}>
             <Dropdown values={forecasts} selected={sourceForecast}
               onChange={(val: ForecastRunDto) => setSourceForecast(val)} />
           </SelectBox>
+          <WithSource sourceForecast={sourceForecast}>
+            <SelectBox title={'Target'}>
+              <Dropdown values={fitSourceFc(forecasts, sourceForecast)} selected={targetForecast}
+                onChange={(val: ForecastRunDto) => setTargetForecast(val)} />
+            </SelectBox>
+          </WithSource>
         </>
       </Layout>
     );

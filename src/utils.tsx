@@ -33,3 +33,38 @@ export function filterForCorrectType(fc: any): ForecastRunDto[] {
     }
     return (typeSafeForecastData);
 }
+
+export const fitSourceFc = (fc: ForecastRunDto[], sourceFc: ForecastRunDto | undefined): ForecastRunDto[] => {
+    if (sourceFc) {
+        const sFc = sourceFc;
+        const f = fc.filter(item => item.id !== sFc.id && (
+            (                                                                     // {-}: source, [-]:target
+                Date.parse(item.period.start) > Date.parse(sFc.period.start) &&     // {--[--}--]
+                Date.parse(sFc.period.end) > Date.parse(item.period.start)
+            )
+            ||
+            (
+                Date.parse(item.period.start) < Date.parse(sFc.period.start) &&     // [--{--]--}
+                Date.parse(sFc.period.start) < Date.parse(item.period.end)
+            )
+            ||
+            (
+                Date.parse(item.period.start) === Date.parse(sFc.period.start) &&   // [{----}]
+                Date.parse(item.period.end) === Date.parse(sFc.period.end)
+            )
+            ||
+            (
+                Date.parse(item.period.start) > Date.parse(sFc.period.start) &&    // {-[---]-}
+                Date.parse(item.period.end) < Date.parse(sFc.period.end)
+            )
+            ||
+            (
+                Date.parse(item.period.start) < Date.parse(sFc.period.start) &&   // [-{---}-]
+                Date.parse(item.period.end) > Date.parse(sFc.period.end)
+            )
+        )
+        );
+        return f;
+    }
+    return fc;
+}
