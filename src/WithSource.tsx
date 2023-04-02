@@ -4,12 +4,11 @@ import { ForecastRunDto } from "./models";
 interface WithSourceProps {
     sourceForecast: ForecastRunDto | undefined
     children: ReactElement
-
 }
 
 const WithSource = ({ sourceForecast, children }: WithSourceProps) => {
 
-    if (typeof sourceForecast !== 'undefined')
+    if (sourceForecast)
         return (<>{children}</>);
     return (<></>);
 }

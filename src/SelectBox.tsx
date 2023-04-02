@@ -1,5 +1,4 @@
 import { Children, ReactElement } from "react";
-import { IForecast } from "./models";
 
 interface SelectBoxProps {
     title: string

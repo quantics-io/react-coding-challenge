@@ -17,13 +17,3 @@ export type ForecastPeriodDto = {
   start: string;
   end: string;
 };
-
-export interface Period {
-  start: Date
-  end: Date
-}
-
-export interface IForecast {
-  name: string
-  period: Period
-};
