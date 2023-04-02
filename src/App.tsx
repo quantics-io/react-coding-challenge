@@ -11,13 +11,15 @@ import { Button } from '@mui/material';
 import s from 'App.module.scss';
 import InfoScreen from './InfoScreen';
 import WithTargetForecasts from './WithTargetForecasts';
+import './defaultStyles.scss';
+import sCopyForm from './CopyForm.module.scss';
 
 function App() {
-  const [forecasts, setForecasts] = useState<ForecastRunDto[] | null>(null);
-  const [sourceForecast, setSourceForecast] = useState<ForecastRunDto | undefined>(undefined);
-  const [targetForecast, setTargetForecast] = useState<ForecastRunDto | undefined>(undefined);
-  const [targetForecasts, setTargetForecasts] = useState<ForecastRunDto[]>([]);
-  const [copy, setCopy] = useState<string | undefined>(undefined);
+  const [forecasts, setForecasts] = useState<ForecastRunDto[] | undefined>();
+  const [sourceForecast, setSourceForecast] = useState<ForecastRunDto | undefined>();
+  const [targetForecast, setTargetForecast] = useState<ForecastRunDto | undefined>();
+  const [targetForecasts, setTargetForecasts] = useState<ForecastRunDto[] | undefined>();
+  const [copy, setCopy] = useState<string | undefined>();
 
   useEffect(() => {
     const fetchForecasts = async () => {
@@ -44,9 +46,12 @@ function App() {
     [sourceForecast]);
 
   const handleCopy = () => {
-    if (targetForecast)
+    if (targetForecast) {
       if (window.confirm(`You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true)
-        setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`);
+        setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`)
+    } else {
+      window.alert('Select a target forecast first!')
+    }
   }
 
   if (forecasts) {
@@ -55,7 +60,7 @@ function App() {
     if (copy)
       return <InfoScreen><><p>Copy complete 🚀</p><p>Press F5 to refresh and copy again.</p></></InfoScreen>
     return (
-      <CopyForm>
+      <CopyForm handleCopy={handleCopy}>
         <>
           <SelectBox title={'Source'}>
             <Dropdown values={forecasts} selected={sourceForecast}
@@ -69,7 +74,9 @@ function App() {
                     <Dropdown values={targetForecasts as ForecastRunDto[]} selected={targetForecast}
                       onChange={(val: ForecastRunDto) => setTargetForecast(val)} />
                   </SelectBox>
-                  <Button onClick={handleCopy} variant="contained">Copy</Button>
+                  <div className={sCopyForm.positionButton}>
+                    <Button className={sCopyForm.button} onClick={handleCopy} variant="contained">Copy</Button>
+                  </div>
                 </>
               </WithTargetForecasts>
             </>

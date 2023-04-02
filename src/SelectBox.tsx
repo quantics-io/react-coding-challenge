@@ -1,4 +1,5 @@
 import { Children, ReactElement } from "react";
+import s from './SelectBox.module.scss';
 
 interface SelectBoxProps {
     title: string
@@ -7,8 +8,8 @@ interface SelectBoxProps {
 
 const SelectBox = ({ title, children }: SelectBoxProps) => {
     return (
-        <div>
-            <div>{title}</div>
+        <div className={s.selectBox}>
+            <span>{title}:</span>
             {children}
         </div>
     );

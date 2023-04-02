@@ -1,3 +1,15 @@
-.select {
-  // todo: make me pretty
+.formControl .select {
+  font-size: .8rem;
+  height: 2.5rem;
+  padding: .5rem;
+}
+
+.formControl {
+  width: 200px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+#menuItem {
+  font-size: .8rem;
 }
