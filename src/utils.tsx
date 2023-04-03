@@ -35,46 +35,48 @@ export function filterForCorrectType(fc: any): ForecastRunDto[] {
     return (typeSafeForecastData);
 }
 
-export const fitSourceFc = (fc: ForecastRunDto[], sourceFc: ForecastRunDto | undefined): ForecastRunDto[] => {
-    if (sourceFc) {
-        const sFc = sourceFc;
-        const f = fc.filter(item => item.id !== sFc.id && (
+export const overlapWithSourceForecast = (
+    forecasts: ForecastRunDto[], sourceForecast: ForecastRunDto | undefined): ForecastRunDto[] => {
+    if (sourceForecast) {
+        const sFc = sourceForecast;
+        return forecasts.filter(tFc => tFc.id !== sFc.id && (
             (                                                                     // {-}: source, [-]:target
-                Date.parse(item.period.start) > Date.parse(sFc.period.start) &&     // {--[--}--]
-                Date.parse(sFc.period.end) > Date.parse(item.period.start)
+                Date.parse(tFc.period.start) >= Date.parse(sFc.period.start) &&     // {--[--}--]
+                Date.parse(sFc.period.end) > Date.parse(tFc.period.start)
             )
             ||
             (
-                Date.parse(item.period.start) < Date.parse(sFc.period.start) &&     // [--{--]--}
-                Date.parse(sFc.period.start) < Date.parse(item.period.end)
+                Date.parse(tFc.period.start) <= Date.parse(sFc.period.start) &&     // [--{--]--}
+                Date.parse(sFc.period.start) < Date.parse(tFc.period.end)
+            )
+            // ||
+            // (
+            //     Date.parse(tFc.period.start) === Date.parse(sFc.period.start) && // [{----}]
+            //     Date.parse(tFc.period.end) === Date.parse(sFc.period.end)
+            // )
+            ||
+            (
+                Date.parse(tFc.period.start) >= Date.parse(sFc.period.start) &&     // {-[---]-}, [{----}]
+                Date.parse(tFc.period.end) <= Date.parse(sFc.period.end)
             )
             ||
             (
-                Date.parse(item.period.start) === Date.parse(sFc.period.start) &&   // [{----}]
-                Date.parse(item.period.end) === Date.parse(sFc.period.end)
-            )
-            ||
-            (
-                Date.parse(item.period.start) > Date.parse(sFc.period.start) &&    // {-[---]-}
-                Date.parse(item.period.end) < Date.parse(sFc.period.end)
-            )
-            ||
-            (
-                Date.parse(item.period.start) < Date.parse(sFc.period.start) &&   // [-{---}-]
-                Date.parse(item.period.end) > Date.parse(sFc.period.end)
+                Date.parse(tFc.period.start) < Date.parse(sFc.period.start) &&     // [-{---}-]
+                Date.parse(tFc.period.end) > Date.parse(sFc.period.end)
             )
         )
         );
-        return f;
     }
-    return fc;
+    return forecasts;
 }
 
 export const makeCopy = (
     setCopy: Dispatch<string | undefined>, targetForecast?: ForecastRunDto, sourceForecast?: ForecastRunDto
 ) => {
     if (targetForecast) {
-        if (window.confirm(`You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true)
+        if (window.confirm(
+            `You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true
+        )
             setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`)
     } else {
         window.alert('Select a target forecast first!')

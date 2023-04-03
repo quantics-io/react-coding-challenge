@@ -5,10 +5,10 @@ import sCopyForm from './CopyForm.module.scss';
 import { Dropdown } from './Dropdown';
 import InfoScreen from './InfoScreen';
 import SelectBox from './SelectBox';
-import WithSource from './WithSource';
+import WithSourceForecast from './WithSourceForecast';
 import WithTargetForecasts from './WithTargetForecasts';
 import { ErrorMessages, ForecastRunDto } from './models';
-import { filterForCorrectType, fitSourceFc, makeCopy } from './utils';
+import { filterForCorrectType, overlapWithSourceForecast, makeCopy } from './utils';
 
 function App() {
   const [errorMessages, setErrorMessages] = useState<ErrorMessages[]>([]);
@@ -17,6 +17,8 @@ function App() {
   const [targetForecast, setTargetForecast] = useState<ForecastRunDto | undefined>();
   const [targetForecasts, setTargetForecasts] = useState<ForecastRunDto[] | undefined>();
   const [copy, setCopy] = useState<string | undefined>();
+
+
 
   useEffect(() => {
     setErrorMessages([]);
@@ -47,52 +49,75 @@ function App() {
     fetchForecasts();
   }, []);
 
-
   useEffect(() => {
     setTargetForecast(undefined);
     if (forecasts)
-      setTargetForecasts([...fitSourceFc(forecasts, sourceForecast)])
+      setTargetForecasts([...overlapWithSourceForecast(forecasts, sourceForecast)])
   },
     [sourceForecast]);
 
+
+
   if (errorMessages[0] === ErrorMessages.NoValidJsonAtLocation)
-    return <InfoScreen><><p>Fetched file is not in JSON format or there is even no file at all. 🤨</p><p>Contact the provider.</p></></InfoScreen>
+    return <InfoScreen><>
+      <p>Fetched file is not in JSON format or maybe there is even no file at all. 🤨</p>
+      <p>Contact the provider.</p>
+    </></InfoScreen>
   if (forecasts) {
     if (errorMessages[0] === ErrorMessages.NotEnoughForecasts)
-      return <InfoScreen><><p>We couldn't find enough forecasts. 🧐</p><p>Contact the provider.</p></></InfoScreen>
+      return <InfoScreen><>
+        <p>We couldn't find enough forecasts. 🧐</p>
+        <p>Contact the provider.</p>
+      </></InfoScreen>
     if (copy)
-      return <InfoScreen><><p>Copy complete 🚀</p><p>Press F5 to refresh and copy again.</p></></InfoScreen>
+      return <InfoScreen><>
+        <p>Copy complete 🚀</p>
+        <p>Press F5 to refresh and copy again.</p>
+      </></InfoScreen>
     return (
       <CopyForm>
         <>
           <SelectBox title={'Source'}>
-            <Dropdown values={forecasts} selected={sourceForecast}
-              onChange={(val: ForecastRunDto) => setSourceForecast(val)} />
+            <Dropdown
+              values={forecasts}
+              selected={sourceForecast}
+              onChange={(val: ForecastRunDto) => setSourceForecast(val)}
+            />
           </SelectBox>
-          <WithSource sourceForecast={sourceForecast}>
+          <WithSourceForecast sourceForecast={sourceForecast}>
             <>
-              <WithTargetForecasts targetForecasts={targetForecasts} sourceForecast={sourceForecast}>
+              <WithTargetForecasts
+                targetForecasts={targetForecasts}
+                sourceForecast={sourceForecast
+                }>
                 <>
                   <SelectBox title={'Target'}>
-                    <Dropdown values={targetForecasts as ForecastRunDto[]} selected={targetForecast}
-                      onChange={(val: ForecastRunDto) => setTargetForecast(val)} />
+                    <Dropdown
+                      values={targetForecasts as ForecastRunDto[]}
+                      selected={targetForecast}
+                      onChange={(val: ForecastRunDto) => setTargetForecast(val)}
+                    />
                   </SelectBox>
                   <div className={sCopyForm.positionButton}>
                     <Button
                       className={sCopyForm.button}
                       onClick={() => makeCopy(setCopy, targetForecast, sourceForecast)}
                       variant="contained"
-                    >Copy</Button>
+                    >
+                      Copy
+                    </Button>
                   </div>
                 </>
               </WithTargetForecasts>
             </>
-          </WithSource>
+          </WithSourceForecast>
         </>
       </CopyForm>
     );
   }
-  return <InfoScreen><p>Forecasts are collected from storage. 📦 Please wait.</p></InfoScreen>
+  return <InfoScreen>
+    <p>Forecasts are collected from storage. 📦 Please wait.</p>
+  </InfoScreen>
 }
 
 export default App;

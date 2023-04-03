@@ -1,16 +1,16 @@
 import { ReactElement } from "react";
 import { ForecastRunDto } from "./models";
 
-interface WithSourceProps {
+interface WithSourceForecastProps {
     sourceForecast: ForecastRunDto | undefined
     children: ReactElement
 }
 
-const WithSource = ({ sourceForecast, children }: WithSourceProps) => {
+const WithSourceForecast = ({ sourceForecast, children }: WithSourceForecastProps) => {
 
     if (sourceForecast)
         return (children);
     return (<></>);
 }
 
-export default WithSource;
+export default WithSourceForecast;
