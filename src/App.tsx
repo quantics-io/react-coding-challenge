@@ -18,14 +18,10 @@ function App() {
   const [targetForecasts, setTargetForecasts] = useState<ForecastRunDto[] | undefined>();
   const [copy, setCopy] = useState<string | undefined>();
 
-
-
   useEffect(() => {
     setErrorMessages([]);
     const fetchForecasts = async () => {
-
       const res = await fetch("forecastruns.json");
-
       let forecastData: any = null;
       try {
         forecastData = await res?.json()
@@ -33,12 +29,9 @@ function App() {
         console.error('No file with valid JSON format at the location!');
         setErrorMessages([...errorMessages, ErrorMessages.NoValidJsonAtLocation]);
       }
-
       const typeSafeForecastData: ForecastRunDto[] = filterForCorrectType(forecastData);
-
       if (typeSafeForecastData.length < 2)
         setErrorMessages([...errorMessages, ErrorMessages.NotEnoughForecasts]);
-
       setTimeout(() => {
         setForecasts(
           typeSafeForecastData
@@ -55,8 +48,6 @@ function App() {
       setTargetForecasts([...overlapWithSourceForecast(forecasts, sourceForecast)])
   },
     [sourceForecast]);
-
-
 
   if (errorMessages[0] === ErrorMessages.NoValidJsonAtLocation)
     return <InfoScreen><>
