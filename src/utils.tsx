@@ -73,13 +73,9 @@ export const overlapWithSourceForecast = (
 export const makeCopy = (
     setCopy: Dispatch<string | undefined>, targetForecast?: ForecastRunDto, sourceForecast?: ForecastRunDto
 ) => {
-    if (targetForecast) {
-        if (window.confirm(
-            `You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true
-        )
-            setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`)
-    } else {
-        window.alert('Select a target forecast first!')
-    }
+    if (window.confirm(
+        `You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true
+    )
+        setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`)
 }
 

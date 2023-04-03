@@ -5,7 +5,7 @@ import sCopyForm from './CopyForm.module.scss';
 import { Dropdown } from './Dropdown';
 import InfoScreen from './InfoScreen';
 import SelectBox from './SelectBox';
-import WithSourceForecast from './WithSourceForecast';
+import WithForecastStateSet from './WithForecastStateSet';
 import WithTargetForecasts from './WithTargetForecasts';
 import { ErrorMessages, ForecastRunDto } from './models';
 import { filterForCorrectType, overlapWithSourceForecast, makeCopy } from './utils';
@@ -84,7 +84,7 @@ function App() {
               onChange={(val: ForecastRunDto) => setSourceForecast(val)}
             />
           </SelectBox>
-          <WithSourceForecast sourceForecast={sourceForecast}>
+          <WithForecastStateSet value={sourceForecast}>
             <>
               <WithTargetForecasts
                 targetForecasts={targetForecasts}
@@ -98,19 +98,21 @@ function App() {
                       onChange={(val: ForecastRunDto) => setTargetForecast(val)}
                     />
                   </SelectBox>
-                  <div className={sCopyForm.positionButton}>
-                    <Button
-                      className={sCopyForm.button}
-                      onClick={() => makeCopy(setCopy, targetForecast, sourceForecast)}
-                      variant="contained"
-                    >
-                      Copy
-                    </Button>
-                  </div>
+                  <WithForecastStateSet value={targetForecast}>
+                    <div className={sCopyForm.positionButton}>
+                      <Button
+                        className={sCopyForm.button}
+                        onClick={() => makeCopy(setCopy, targetForecast, sourceForecast)}
+                        variant="contained"
+                      >
+                        Copy
+                      </Button>
+                    </div>
+                  </WithForecastStateSet>
                 </>
               </WithTargetForecasts>
             </>
-          </WithSourceForecast>
+          </WithForecastStateSet>
         </>
       </CopyForm>
     );
