@@ -1,4 +1,4 @@
-import { Children, ReactElement } from "react";
+import { ReactElement } from "react";
 import s from './SelectBox.module.scss';
 
 interface SelectBoxProps {

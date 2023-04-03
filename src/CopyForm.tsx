@@ -1,15 +1,11 @@
 import { ReactElement, memo } from "react";
 import s from './CopyForm.module.scss';
-import { Button } from "@mui/material";
-import { ForecastRunDto } from "./models";
-import WithTargetForecasts from "./WithTargetForecasts";
 
 interface CopyFormProps {
-    handleCopy: any
     children: ReactElement
 }
 
-const CopyForm = memo(function CopyForm({ handleCopy, children }: CopyFormProps) {
+const CopyForm = memo(function CopyForm({ children }: CopyFormProps) {
     return (
         <div className={s.box}>
             <h1>Forecast Copy Tool</h1>

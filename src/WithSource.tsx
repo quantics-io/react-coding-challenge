@@ -1,4 +1,4 @@
-import { Children, ReactElement } from "react";
+import { ReactElement } from "react";
 import { ForecastRunDto } from "./models";
 
 interface WithSourceProps {
@@ -9,7 +9,7 @@ interface WithSourceProps {
 const WithSource = ({ sourceForecast, children }: WithSourceProps) => {
 
     if (sourceForecast)
-        return (<>{children}</>);
+        return (children);
     return (<></>);
 }
 

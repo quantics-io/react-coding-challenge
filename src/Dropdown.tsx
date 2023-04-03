@@ -1,8 +1,7 @@
-import React, { FC, memo, useCallback } from 'react';
-// import './App.css';
-import { ForecastRunDto } from "./models";
 import { FormControl, MenuItem, Select } from "@mui/material";
-import s from './Dropdown.module.scss'
+import { FC, memo, useCallback } from 'react';
+import s from './Dropdown.module.scss';
+import { ForecastRunDto } from "./models";
 
 type DropdownProps = {
   values: ForecastRunDto[];

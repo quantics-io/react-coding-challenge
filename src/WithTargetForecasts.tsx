@@ -1,6 +1,6 @@
-import { Children, ReactElement } from "react";
-import { ForecastRunDto } from "./models";
+import { ReactElement } from "react";
 import s from './WithTargetForecasts.module.scss';
+import { ForecastRunDto } from "./models";
 
 interface WithTargetForecastsProps {
     targetForecasts: ForecastRunDto[] | undefined

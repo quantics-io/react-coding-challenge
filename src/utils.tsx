@@ -1,3 +1,4 @@
+import { Dispatch } from "react";
 import { ForecastRunDto } from "./models";
 
 export function isForecast(fc: any): fc is ForecastRunDto {
@@ -68,3 +69,15 @@ export const fitSourceFc = (fc: ForecastRunDto[], sourceFc: ForecastRunDto | und
     }
     return fc;
 }
+
+export const makeCopy = (
+    setCopy: Dispatch<string | undefined>, targetForecast?: ForecastRunDto, sourceForecast?: ForecastRunDto
+) => {
+    if (targetForecast) {
+        if (window.confirm(`You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true)
+            setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`)
+    } else {
+        window.alert('Select a target forecast first!')
+    }
+}
+

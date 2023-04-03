@@ -1,4 +1,4 @@
-import { Children, ReactElement } from "react";
+import { ReactElement } from "react";
 import s from './InfoScreen.module.scss';
 
 interface InfoScreenProps {

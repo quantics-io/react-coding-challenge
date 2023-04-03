@@ -1,20 +1,17 @@
-import { stringify } from 'querystring';
+import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import CopyForm from './CopyForm';
-import SelectUnit from './SelectBox';
-import { ForecastRunDto } from './models';
-import { filterForCorrectType, fitSourceFc } from './utils';
-import SelectBox from './SelectBox';
-import { Dropdown } from './Dropdown';
-import WithSource from './WithSource';
-import { Button } from '@mui/material';
-import s from 'App.module.scss';
-import InfoScreen from './InfoScreen';
-import WithTargetForecasts from './WithTargetForecasts';
-import './defaultStyles.scss';
 import sCopyForm from './CopyForm.module.scss';
+import { Dropdown } from './Dropdown';
+import InfoScreen from './InfoScreen';
+import SelectBox from './SelectBox';
+import WithSource from './WithSource';
+import WithTargetForecasts from './WithTargetForecasts';
+import { ErrorMessages, ForecastRunDto } from './models';
+import { filterForCorrectType, fitSourceFc, makeCopy } from './utils';
 
 function App() {
+  const [errorMessages, setErrorMessages] = useState<ErrorMessages[]>([]);
   const [forecasts, setForecasts] = useState<ForecastRunDto[] | undefined>();
   const [sourceForecast, setSourceForecast] = useState<ForecastRunDto | undefined>();
   const [targetForecast, setTargetForecast] = useState<ForecastRunDto | undefined>();
@@ -22,21 +19,34 @@ function App() {
   const [copy, setCopy] = useState<string | undefined>();
 
   useEffect(() => {
+    setErrorMessages([]);
     const fetchForecasts = async () => {
-      const res: Response = await fetch("forecastruns.json");
-      const forecastData: any = await res.json();
+
+      const res = await fetch("forecastruns.json");
+
+      let forecastData: any = null;
+      try {
+        forecastData = await res?.json()
+      } catch {
+        console.error('No file with valid JSON format at the location!');
+        setErrorMessages([...errorMessages, ErrorMessages.NoValidJsonAtLocation]);
+      }
 
       const typeSafeForecastData: ForecastRunDto[] = filterForCorrectType(forecastData);
+
+      if (typeSafeForecastData.length < 2)
+        setErrorMessages([...errorMessages, ErrorMessages.NotEnoughForecasts]);
 
       setTimeout(() => {
         setForecasts(
           typeSafeForecastData
         );
-      }, 1000);
+      }, 500);
     }
 
     fetchForecasts();
   }, []);
+
 
   useEffect(() => {
     setTargetForecast(undefined);
@@ -45,22 +55,15 @@ function App() {
   },
     [sourceForecast]);
 
-  const handleCopy = () => {
-    if (targetForecast) {
-      if (window.confirm(`You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true)
-        setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`)
-    } else {
-      window.alert('Select a target forecast first!')
-    }
-  }
-
+  if (errorMessages[0] === ErrorMessages.NoValidJsonAtLocation)
+    return <InfoScreen><><p>Fetched file is not in JSON format or there is even no file at all. 🤨</p><p>Contact the provider.</p></></InfoScreen>
   if (forecasts) {
-    if (forecasts.length < 2)
+    if (errorMessages[0] === ErrorMessages.NotEnoughForecasts)
       return <InfoScreen><><p>We couldn't find enough forecasts. 🧐</p><p>Contact the provider.</p></></InfoScreen>
     if (copy)
       return <InfoScreen><><p>Copy complete 🚀</p><p>Press F5 to refresh and copy again.</p></></InfoScreen>
     return (
-      <CopyForm handleCopy={handleCopy}>
+      <CopyForm>
         <>
           <SelectBox title={'Source'}>
             <Dropdown values={forecasts} selected={sourceForecast}
@@ -75,7 +78,11 @@ function App() {
                       onChange={(val: ForecastRunDto) => setTargetForecast(val)} />
                   </SelectBox>
                   <div className={sCopyForm.positionButton}>
-                    <Button className={sCopyForm.button} onClick={handleCopy} variant="contained">Copy</Button>
+                    <Button
+                      className={sCopyForm.button}
+                      onClick={() => makeCopy(setCopy, targetForecast, sourceForecast)}
+                      variant="contained"
+                    >Copy</Button>
                   </div>
                 </>
               </WithTargetForecasts>
