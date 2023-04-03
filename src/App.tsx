@@ -101,7 +101,7 @@ function App() {
                   <WithForecastStateSet value={targetForecast}>
                     <div className={sCopyForm.positionButton}>
                       <Button
-                        className={sCopyForm.button}
+                        id={sCopyForm.button}
                         onClick={() => makeCopy(setCopy, targetForecast, sourceForecast)}
                         variant="contained"
                       >
