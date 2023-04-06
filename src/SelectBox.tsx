@@ -1,6 +1,5 @@
-import { ReactElement } from "react";
-import s from './SelectBox.module.scss';
 import { Dropdown } from "./Dropdown";
+import s from './SelectBox.module.scss';
 import { ForecastRunDto } from "./models";
 
 interface SelectBoxProps {

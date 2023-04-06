@@ -1,5 +1,7 @@
-div.box>*:not(.positionButton, h1) {
-    margin-bottom: 1rem;
+div {
+    .box>*:not(.positionButton, h1) {
+        margin-bottom: 1rem;
+    }
 }
 
 h1 {

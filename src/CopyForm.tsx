@@ -26,8 +26,7 @@ export const CopyForm: FC<CopyFormProps> = memo(function CopyForm({ data, onCopy
 
     const onCopy = () => {
         if (window.confirm(
-            `You sure you want to copy from ${copySource?.name} to ${copyTarget?.name}?`) === true
-        )
+            `You sure you want to copy from ${copySource?.name} to ${copyTarget?.name}?`) === true)
             onCopyFinished()
     }
 

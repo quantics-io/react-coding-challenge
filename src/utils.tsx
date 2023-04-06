@@ -25,14 +25,7 @@ export function isForecast(fc: any): fc is ForecastRunDto {
 }
 
 export function filterForCorrectType(fc: any): ForecastRunDto[] {
-    const typeSafeForecastData: ForecastRunDto[] = [];
-
-    for (let i = 0; i < fc.length; i++) {
-        if (fc[i] && isForecast(fc[i])) {
-            typeSafeForecastData.push(fc[i]);
-        }
-    }
-    return (typeSafeForecastData);
+    return fc.filter((it: any) => (isForecast(it)))
 }
 
 export const overlapWithSourceForecast = (
@@ -49,11 +42,6 @@ export const overlapWithSourceForecast = (
                 Date.parse(tFc.period.start) <= Date.parse(sFc.period.start) &&     // [--{--]--}
                 Date.parse(sFc.period.start) < Date.parse(tFc.period.end)
             )
-            // ||
-            // (
-            //     Date.parse(tFc.period.start) === Date.parse(sFc.period.start) && // [{----}]
-            //     Date.parse(tFc.period.end) === Date.parse(sFc.period.end)
-            // )
             ||
             (
                 Date.parse(tFc.period.start) >= Date.parse(sFc.period.start) &&     // {-[---]-}, [{----}]
@@ -69,13 +57,3 @@ export const overlapWithSourceForecast = (
     }
     return forecasts;
 }
-
-export const makeCopy = (
-    setCopy: Dispatch<string | undefined>, targetForecast?: ForecastRunDto, sourceForecast?: ForecastRunDto
-) => {
-    if (window.confirm(
-        `You sure you want to copy from ${sourceForecast?.name} to ${targetForecast?.name}?`) === true
-    )
-        setCopy(`${sourceForecast?.name} copied to ${targetForecast?.name}`)
-}
-

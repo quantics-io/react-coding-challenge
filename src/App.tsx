@@ -1,21 +1,13 @@
-import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import sCopyForm from './CopyForm.module.scss';
-import { Dropdown } from './Dropdown';
-import InfoScreen from './InfoScreen';
-import SelectBox from './SelectBox';
-import WithForecastStateSet from './WithForecastStateSet';
-import WithTargetForecasts from './WithTargetForecasts';
-import { ErrorMessages, ForecastRunDto } from './models';
-import { filterForCorrectType, overlapWithSourceForecast, makeCopy } from './utils';
 import { CopyForm } from './CopyForm';
+import InfoScreen from './InfoScreen';
+import { ErrorMessages, ForecastRunDto } from './models';
+import { filterForCorrectType } from './utils';
 
 function App() {
   const [errorMessages, setErrorMessages] = useState<ErrorMessages[]>([]);
   const [forecasts, setForecasts] = useState<ForecastRunDto[] | undefined>();
   const [copy, setCopy] = useState<Boolean>(false);
-
-  const errorMessagesArr: ErrorMessages[] = [];
 
   useEffect(() => {
     fetch("forecastruns.json")
@@ -44,7 +36,6 @@ function App() {
         () => {
           console.log('no JSON format');
           setErrorMessages([...errorMessages, ErrorMessages.NoValidJsonAtLocation]);
-          errorMessagesArr.push(ErrorMessages.NoValidJsonAtLocation);
           setForecasts([]);
         }
       )
