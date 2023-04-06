@@ -2,11 +2,16 @@ import { ReactElement } from "react";
 import s from './InfoScreen.module.scss';
 
 interface InfoScreenProps {
-    children: ReactElement
+    title: string,
+    subTitle?: string,
 }
 
-const InfoScreen = ({ children }: InfoScreenProps) => {
-    return <h3 className={s.h3}>{children}</h3>
-}
+const InfoScreen = ({ title, subTitle }: InfoScreenProps) =>
+    <h3 className={s.h3}>
+        <p>{title}</p>
+        {subTitle &&
+            <p>{subTitle}</p>}
+    </h3>
+
 
 export default InfoScreen;

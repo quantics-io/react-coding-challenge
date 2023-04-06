@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import CopyForm from './CopyForm';
 import sCopyForm from './CopyForm.module.scss';
 import { Dropdown } from './Dropdown';
 import InfoScreen from './InfoScreen';
@@ -9,108 +8,73 @@ import WithForecastStateSet from './WithForecastStateSet';
 import WithTargetForecasts from './WithTargetForecasts';
 import { ErrorMessages, ForecastRunDto } from './models';
 import { filterForCorrectType, overlapWithSourceForecast, makeCopy } from './utils';
+import { CopyForm } from './CopyForm';
 
 function App() {
   const [errorMessages, setErrorMessages] = useState<ErrorMessages[]>([]);
   const [forecasts, setForecasts] = useState<ForecastRunDto[] | undefined>();
-  const [sourceForecast, setSourceForecast] = useState<ForecastRunDto | undefined>();
-  const [targetForecast, setTargetForecast] = useState<ForecastRunDto | undefined>();
-  const [targetForecasts, setTargetForecasts] = useState<ForecastRunDto[] | undefined>();
-  const [copy, setCopy] = useState<string | undefined>();
+  const [copy, setCopy] = useState<Boolean>(false);
+
+  const errorMessagesArr: ErrorMessages[] = [];
 
   useEffect(() => {
-    setErrorMessages([]);
-    const fetchForecasts = async () => {
-      const res = await fetch("forecastruns.json");
-      let forecastData: any = null;
-      try {
-        forecastData = await res?.json()
-      } catch {
-        console.error('No file with valid JSON format at the location!');
-        setErrorMessages([...errorMessages, ErrorMessages.NoValidJsonAtLocation]);
-      }
-      const typeSafeForecastData: ForecastRunDto[] = filterForCorrectType(forecastData);
-      if (typeSafeForecastData.length < 2)
-        setErrorMessages([...errorMessages, ErrorMessages.NotEnoughForecasts]);
-      setTimeout(() => {
-        setForecasts(
-          typeSafeForecastData
-        );
-      }, 500);
-    }
-
-    fetchForecasts();
+    fetch("forecastruns.json")
+      .then
+      (
+        res => {
+          return res.json();
+        },
+        () => {
+          console.log("fetching of data failed");
+          setForecasts([]);
+        }
+      )
+      .then
+      (
+        json => {
+          const typeSafeForecastData: ForecastRunDto[] = filterForCorrectType(json);
+          if (typeSafeForecastData.length < 2) {
+            setErrorMessages([...errorMessages, ErrorMessages.NotEnoughForecasts]);
+          } else {
+            setTimeout(() => {
+              setForecasts(typeSafeForecastData);
+            }, 500);
+          }
+        },
+        () => {
+          console.log('no JSON format');
+          setErrorMessages([...errorMessages, ErrorMessages.NoValidJsonAtLocation]);
+          errorMessagesArr.push(ErrorMessages.NoValidJsonAtLocation);
+          setForecasts([]);
+        }
+      )
   }, []);
 
-  useEffect(() => {
-    setTargetForecast(undefined);
-    if (forecasts)
-      setTargetForecasts([...overlapWithSourceForecast(forecasts, sourceForecast)])
-  },
-    [sourceForecast]);
+  console.log('re-render app');
 
   if (errorMessages[0] === ErrorMessages.NoValidJsonAtLocation)
-    return <InfoScreen><>
-      <p>Fetched file is not in JSON format or maybe there is even no file at all. 🤨</p>
-      <p>Contact the provider.</p>
-    </></InfoScreen>
+    return <InfoScreen
+      title='Fetched file is not in JSON format or maybe there is even no file at all. 🤨'
+      subTitle='Contact the provider.'
+    />
+  if (errorMessages[0] === ErrorMessages.NotEnoughForecasts)
+    return <InfoScreen
+      title="We couldn't find enough forecasts. 🧐"
+      subTitle="Contact the provider."
+    />
   if (forecasts) {
-    if (errorMessages[0] === ErrorMessages.NotEnoughForecasts)
-      return <InfoScreen><>
-        <p>We couldn't find enough forecasts. 🧐</p>
-        <p>Contact the provider.</p>
-      </></InfoScreen>
     if (copy)
-      return <InfoScreen><>
-        <p>Copy complete 🚀</p>
-        <p>Press F5 to refresh and copy again.</p>
-      </></InfoScreen>
+      return <InfoScreen
+        title='Copy complete 🚀'
+        subTitle='Press F5 to refresh and copy again.'
+      />
     return (
-      <CopyForm>
-        <>
-          <SelectBox title={'Source'}>
-            <Dropdown
-              values={forecasts}
-              selected={sourceForecast}
-              onChange={(val: ForecastRunDto) => setSourceForecast(val)}
-            />
-          </SelectBox>
-          <WithForecastStateSet value={sourceForecast}>
-            <>
-              <WithTargetForecasts
-                targetForecasts={targetForecasts}
-                sourceForecast={sourceForecast
-                }>
-                <>
-                  <SelectBox title={'Target'}>
-                    <Dropdown
-                      values={targetForecasts as ForecastRunDto[]}
-                      selected={targetForecast}
-                      onChange={(val: ForecastRunDto) => setTargetForecast(val)}
-                    />
-                  </SelectBox>
-                  <WithForecastStateSet value={targetForecast}>
-                    <div className={sCopyForm.positionButton}>
-                      <Button
-                        id={sCopyForm.button}
-                        onClick={() => makeCopy(setCopy, targetForecast, sourceForecast)}
-                        variant="contained"
-                      >
-                        Copy
-                      </Button>
-                    </div>
-                  </WithForecastStateSet>
-                </>
-              </WithTargetForecasts>
-            </>
-          </WithForecastStateSet>
-        </>
-      </CopyForm>
+      <CopyForm data={forecasts} onCopyFinished={() => setCopy(true)} />
     );
   }
-  return <InfoScreen>
-    <p>Forecasts are collected from storage. 📦 Please wait.</p>
-  </InfoScreen>
+  return <InfoScreen
+    title="Forecasts are collected from storage. 📦 Please wait."
+  />
 }
 
 export default App;

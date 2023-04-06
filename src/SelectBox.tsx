@@ -1,16 +1,25 @@
 import { ReactElement } from "react";
 import s from './SelectBox.module.scss';
+import { Dropdown } from "./Dropdown";
+import { ForecastRunDto } from "./models";
 
 interface SelectBoxProps {
-    title: string
-    children: ReactElement
+    title: string,
+    values: ForecastRunDto[],
+    selected?: ForecastRunDto,
+    onChange: (val: ForecastRunDto) => void
+
 }
 
-const SelectBox = ({ title, children }: SelectBoxProps) => {
+const SelectBox = ({ title, values, selected, onChange }: SelectBoxProps) => {
     return (
         <div className={s.selectBox}>
             <span>{title}:</span>
-            {children}
+            <Dropdown
+                values={values}
+                selected={selected}
+                onChange={onChange}
+            />
         </div>
     );
 

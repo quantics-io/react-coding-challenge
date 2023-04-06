@@ -18,6 +18,7 @@ export const Dropdown: FC<DropdownProps> = memo(function Dropdown({ values, sele
     next && id !== selected?.id && onChange(next);
   }, [values, selected?.id, onChange]);
 
+
   return (
     <FormControl className={s.formControl} variant="standard">
       <Select className={s.select} variant="outlined" value={selected ? selected.id : ''}
