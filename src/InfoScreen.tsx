@@ -1,4 +1,3 @@
-import { ReactElement } from "react";
 import s from './InfoScreen.module.scss';
 
 interface InfoScreenProps {

@@ -1,4 +1,3 @@
-
 export type ForecastRunDto = {
   id: string;
   name: string;

@@ -1,4 +1,3 @@
-import { Dispatch } from "react";
 import { ForecastRunDto } from "./models";
 
 export function isForecast(fc: any): fc is ForecastRunDto {
