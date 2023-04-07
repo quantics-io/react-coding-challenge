@@ -41,8 +41,6 @@ function App() {
       )
   }, []);
 
-  console.log('re-render app');
-
   if (errorMessages[0] === ErrorMessages.NoValidJsonAtLocation)
     return <InfoScreen
       title='Fetched file is not in JSON format or maybe there is even no file at all. 🤨'

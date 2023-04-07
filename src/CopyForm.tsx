@@ -14,8 +14,7 @@ export const CopyForm: FC<CopyFormProps> = memo(function CopyForm({ data, onCopy
     const [copySource, setCopySource] = useState<ForecastRunDto | undefined>();
     const [copyTarget, setCopyTarget] = useState<ForecastRunDto | undefined>();
 
-    let targetForecastCandidates: ForecastRunDto[] | undefined;
-
+    let targetForecastCandidates: ForecastRunDto[] = [];
     if (copySource)
         targetForecastCandidates = overlapWithSourceForecast(data, copySource);
 
@@ -50,7 +49,7 @@ export const CopyForm: FC<CopyFormProps> = memo(function CopyForm({ data, onCopy
             {copySource &&
                 <SelectBox
                     title={'Target'}
-                    values={targetForecastCandidates as ForecastRunDto[]}
+                    values={targetForecastCandidates}
                     selected={copyTarget}
                     onChange={(val: ForecastRunDto) => setCopyTarget(val)}
                 />
