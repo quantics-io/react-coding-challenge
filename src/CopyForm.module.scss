@@ -1,1 +1,26 @@
-// todo: make me pretty
+h1 {
+    text-decoration: underline;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.box {
+    margin: 30px auto;
+    padding: 1rem;
+    width: 470px;
+    height: fit-content;
+    background-color: #313131;
+    color: white;
+    border-radius: 7px;
+
+    >*:not(.positionButton, h1) {
+        margin-bottom: 1rem;
+    }
+}
+
+.positionButton {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}

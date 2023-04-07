@@ -1,8 +1,7 @@
-import React, {FC, memo, useCallback} from 'react';
-import './App.css';
-import {ForecastRunDto} from "./models";
-import {MenuItem, Select} from "@mui/material";
-import s from './Dropdown.module.scss'
+import { FormControl, MenuItem, Select } from "@mui/material";
+import { FC, memo, useCallback } from 'react';
+import s from './Dropdown.module.scss';
+import { ForecastRunDto } from "./models";
 
 type DropdownProps = {
   values: ForecastRunDto[];
@@ -10,7 +9,7 @@ type DropdownProps = {
   onChange: (fc: ForecastRunDto) => void;
 };
 
-export const Dropdown: FC<DropdownProps> = memo(function Dropdown({values, selected, onChange}) {
+export const Dropdown: FC<DropdownProps> = memo(function Dropdown({ values, selected, onChange }) {
 
   const handleChange = useCallback((id: string) => {
     console.info('Dropdown change:', id)
@@ -19,7 +18,13 @@ export const Dropdown: FC<DropdownProps> = memo(function Dropdown({values, selec
     next && id !== selected?.id && onChange(next);
   }, [values, selected?.id, onChange]);
 
-  return (<Select className={s.select} value={selected?.id} onChange={(it) => handleChange(it.target.value)}>
-    {values.map(it => <MenuItem key={it.id} value={it.id}>{it.name}</MenuItem>)}
-  </Select>);
+
+  return (
+    <FormControl className={s.formControl} variant="standard">
+      <Select className={s.select} variant="outlined" value={selected ? selected.id : ''}
+        onChange={(it) => handleChange(it.target.value)}>
+        {values.map(it => <MenuItem className={s.menuItem} key={it.id} value={it.id}>{it.name}</MenuItem>)}
+      </Select>
+    </FormControl>
+  );
 });

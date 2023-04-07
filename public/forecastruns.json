@@ -1,72 +1,72 @@
 [
-  {
-    "id": "fc5",
-    "name": "FC January 2023",
-    "user":{
-      "firstname": "John",
-      "lastname": "Doe",
-      "email": "john.doe@example.com"
+    {
+        "id": "fc5",
+        "name": "FC January 2023",
+        "user": {
+            "firstname": "John",
+            "lastname": "Doe",
+            "email": "john.doe@example.com"
+        },
+        "creationDate": "2022-12-19T14:10:12",
+        "period": {
+            "start": "2023-01-01",
+            "end": "2023-12-31"
+        }
     },
-    "creationDate": "2022-12-19T14:10:12",
-    "period": {
-      "start": "2023-01-01",
-      "end": "2023-12-31"
-    }
-  },
-  {
-    "id": "fc4",
-    "name": "FC January 2022 (rerun)",
-    "user":{
-      "firstname": "John",
-      "lastname": "Doe",
-      "email": "john.doe@example.com"
+    {
+        "id": "fc4",
+        "name": "FC January 2022 (rerun)",
+        "user": {
+            "firstname": "John",
+            "lastname": "Doe",
+            "email": "john.doe@example.com"
+        },
+        "creationDate": "2022-04-19T14:10:12",
+        "period": {
+            "start": "2022-01-01",
+            "end": "2022-12-31"
+        }
     },
-    "creationDate": "2022-04-19T14:10:12",
-    "period": {
-      "start": "2022-01-01",
-      "end": "2022-12-31"
-    }
-  },
-  {
-    "id": "fc3",
-    "name": "FC April 2022",
-    "user":{
-      "firstname": "John",
-      "lastname": "Doe",
-      "email": "john.doe@example.com"
+    {
+        "id": "fc3",
+        "name": "FC April 2022",
+        "user": {
+            "firstname": "John",
+            "lastname": "Doe",
+            "email": "john.doe@example.com"
+        },
+        "creationDate": "2022-03-26T14:10:12",
+        "period": {
+            "start": "2022-04-01",
+            "end": "2023-03-31"
+        }
     },
-    "creationDate": "2022-03-26T14:10:12",
-    "period": {
-      "start": "2022-04-01",
-      "end": "2023-03-31"
-    }
-  },
-  {
-    "id": "fc2",
-    "name": "FC January 2022",
-    "user":{
-      "firstname": "John",
-      "lastname": "Doe",
-      "email": "john.doe@example.com"
+    {
+        "id": "fc2",
+        "name": "FC January 2022",
+        "user": {
+            "firstname": "John",
+            "lastname": "Doe",
+            "email": "john.doe@example.com"
+        },
+        "creationDate": "2021-12-19T14:10:12",
+        "period": {
+            "start": "2022-01-01",
+            "end": "2022-12-31"
+        }
     },
-    "creationDate": "2021-12-19T14:10:12",
-    "period": {
-      "start": "2022-01-01",
-      "end": "2022-12-31"
+    {
+        "id": "fc1",
+        "name": "FC January 2021",
+        "user": {
+            "firstname": "John",
+            "lastname": "Doe",
+            "email": "john.doe@example.com"
+        },
+        "creationDate": "2020-12-19T14:10:12",
+        "period": {
+            "start": "2021-01-01",
+            "end": "2021-12-31"
+        }
     }
-  },
-  {
-    "id": "fc1",
-    "name": "FC January 2021",
-    "user":{
-      "firstname": "John",
-      "lastname": "Doe",
-      "email": "john.doe@example.com"
-    },
-    "creationDate": "2020-12-19T14:10:12",
-    "period": {
-      "start": "2021-01-01",
-      "end": "2021-12-31"
-    }
-  }
 ]
